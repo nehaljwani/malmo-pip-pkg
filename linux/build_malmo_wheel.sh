@@ -10,6 +10,7 @@ git checkout $1
 
 mkdir build && cd $_
 PREFIX=/py$PY_VER_S
+rm -f $PREFIX/lib/libz.so # Need static lib only
 $PREFIX/bin/cmake \
   -DCMAKE_PREFIX_PATH=$PREFIX \
   -DCMAKE_BUILD_TYPE=Release \
@@ -21,6 +22,7 @@ $PREFIX/bin/cmake \
   -DBUILD_MOD=OFF \
   ..
 make install
+objdump -x install/Python_Examples/MalmoPython.so | grep NEEDED
 cd ..
 
 cd scripts/python-wheel
