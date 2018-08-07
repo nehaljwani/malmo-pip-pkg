@@ -1,4 +1,4 @@
-# Linux
+## Linux
 
   - Build the docker image
     ```sh
@@ -13,7 +13,7 @@
     malmo-0.35.6.0-cp37-cp37m-manylinux1_x86_64.whl
     ```
 
-# MacOS
+## MacOS
 
   - Make sure you don't have conda in PATH or any conda environment activated.
     The following should throw and error:
