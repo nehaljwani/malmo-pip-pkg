@@ -15,8 +15,8 @@
 
 ## MacOS
 
-  - Make sure you don't have conda in PATH or any conda environment activated.
-    The following should throw and error:
+  - Make sure you don't have conda in `PATH` or any conda environment activated.
+    The following should throw an error:
     ```sh
     $ type -a conda
     ```
