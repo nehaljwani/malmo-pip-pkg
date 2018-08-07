@@ -13,3 +13,19 @@
     malmo-0.35.6.0-cp37-cp37m-manylinux1_x86_64.whl
     ```
 
+# MacOS
+
+  - Make sure you don't have conda in PATH or any conda environment activated.
+    The following should throw and error:
+    ```sh
+    $ type -a conda
+    ```
+
+  - Run the build script
+    ``` sh
+    $ export MALMO_GIT_TAG=0.35.6
+    $ export PYTHON_VERSION=3.6
+    $ bash build_malmo_wheel.sh $MALMO_GIT_TAG $PYTHON_VERSION
+    $ ls io/
+    malmo-0.35.6.0-cp36-cp36m-macosx_10_9_x86_64.whl
+    ```
