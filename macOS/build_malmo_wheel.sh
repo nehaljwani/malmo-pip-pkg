@@ -9,9 +9,11 @@ PY_VER_S=${2/./}
 LOC=$PWD
 
 MINICONDA=Miniconda3-4.5.4-MacOSX-x86_64.sh
-curl -LO https://repo.anaconda.com/miniconda/$MINICONDA
-bash $MINICONDA -bfp $LOC/m3
-echo -e "channels:\n  - conda-forge" > $LOC/m3/.condarc && \
+if [[ ! -d $LOC/m3 ]]; then
+  curl -LO https://repo.anaconda.com/miniconda/$MINICONDA
+  bash $MINICONDA -bfp $LOC/m3
+  echo -e "channels:\n  - conda-forge" > $LOC/m3/.condarc
+fi
 
 mkdir -p $LOC/io
 
@@ -24,7 +26,9 @@ PREFIX=$PWD/py$PY_VER_S
 
 git clone https://github.com/Microsoft/malmo ./malmo
 cd malmo
-git checkout $1
+git reset --hard $1
+
+[[ -d $LOC/../patches/$1 ]] && git am $LOC/../patches/$1/*.patch
 
 rm -fr build
 mkdir build
@@ -42,6 +46,7 @@ $PREFIX/bin/cmake \
   -DBUILD_DOCUMENTATION=OFF \
   -DBUILD_MOD=OFF \
   ..
+make VERBOSE=1
 make install
 otool -L install/Python_Examples/MalmoPython.so
 cd ..
