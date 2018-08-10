@@ -9,7 +9,7 @@
     $ export MALMO_GIT_TAG=0.35.6
     $ export PYTHON_VERSION=3.7
     $ sudo docker run --rm -v /path/to/repo/checkout:/io malmo_wheel $MALMO_GIT_TAG $PYTHON_VERSION
-    $ ls io/
+    $ ls ../*.whl
     malmo-0.35.6.0-cp37-cp37m-manylinux1_x86_64.whl
     ```
 
