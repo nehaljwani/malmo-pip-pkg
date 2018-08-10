@@ -1,0 +1,52 @@
+From d5bd2d23ce1085d10c3423000e61f25b364f633a Mon Sep 17 00:00:00 2001
+From: Nehal J Wani <nehaljw.kkd1@gmail.com>
+Date: Fri, 10 Aug 2018 10:04:19 +0530
+Subject: [PATCH] Don't link to libpythonXY.dll/so/dylib
+
+We are not embedding the python interpreter. We are just building a
+shared library.
+
+xref: https://gitlab.kitware.com/cmake/cmake/issues/18100
+xref: https://groups.google.com/a/continuum.io/forum/#!topic/anaconda/057P4uNWyCU
+---
+ Malmo/src/CMakeLists.txt               | 3 ---
+ Malmo/src/PythonWrapper/CMakeLists.txt | 6 ++++--
+ 2 files changed, 4 insertions(+), 5 deletions(-)
+
+diff --git a/Malmo/src/CMakeLists.txt b/Malmo/src/CMakeLists.txt
+index 22596bc..70aa3ba 100755
+--- a/Malmo/src/CMakeLists.txt
++++ b/Malmo/src/CMakeLists.txt
+@@ -116,9 +116,6 @@ set( MALMO_LINK_LIBRARIES
+ if( INCLUDE_ALE )
+   set( MALMO_LINK_LIBRARIES ${MALMO_LINK_LIBRARIES} ${ALE_LIBRARIES} )
+ endif()
+-if( INCLUDE_PYTHON )
+-  set( MALMO_LINK_LIBRARIES ${MALMO_LINK_LIBRARIES} ${PYTHON_LIBRARIES} )
+-endif()
+ if( UNIX AND NOT APPLE )
+   set( MALMO_LINK_LIBRARIES ${MALMO_LINK_LIBRARIES} rt )
+ endif()
+diff --git a/Malmo/src/PythonWrapper/CMakeLists.txt b/Malmo/src/PythonWrapper/CMakeLists.txt
+index 9088e67..467587f 100755
+--- a/Malmo/src/PythonWrapper/CMakeLists.txt
++++ b/Malmo/src/PythonWrapper/CMakeLists.txt
+@@ -27,11 +27,13 @@ set( OTHER_FILES
+ 
+ python_add_module( MalmoPython SHARED ${CPP_SOURCES} )
+ include_directories( MalmoPython ${PYTHON_INCLUDE_DIRS} )
+-target_link_libraries( MalmoPython Malmo ${PYTHON_LIBRARIES} )
+ if( MSVC )
+   set_property( TARGET MalmoPython APPEND PROPERTY COMPILE_DEFINITIONS "BOOST_PYTHON_STATIC_LIB=1" ) 
+ elseif( APPLE )
+-  set_property( TARGET MalmoPython PROPERTY SUFFIX ".so" )
++  set_target_properties(MalmoPython
++      PROPERTIES
++      PROPERTY SUFFIX ".so"
++      LINK_FLAGS "-undefined dynamic_lookup")
+ endif()
+ 
+ # copy the extra files to the build folder for use with testing
+-- 
+2.15.2 (Apple Git-101.1)
+
