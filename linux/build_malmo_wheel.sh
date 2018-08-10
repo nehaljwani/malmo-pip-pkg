@@ -8,6 +8,8 @@ PY_VER_S=${2/./}
 git clone https://github.com/Microsoft/malmo /malmo && cd $_
 git checkout $1
 
+[[ -d /io/patches/$1 ]] && git am /io/patches/$1/*.patch
+
 mkdir build && cd $_
 PREFIX=/py$PY_VER_S
 rm -f $PREFIX/lib/libz.so # Need static lib only
