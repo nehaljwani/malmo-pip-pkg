@@ -23,6 +23,7 @@ $PREFIX/bin/cmake \
   -DBUILD_DOCUMENTATION=OFF \
   -DBUILD_MOD=OFF \
   ..
+make VERBOSE=1
 make install
 objdump -x install/Python_Examples/MalmoPython.so | grep NEEDED
 cd ..
