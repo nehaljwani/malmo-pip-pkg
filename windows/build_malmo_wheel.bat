@@ -21,7 +21,9 @@ rmdir /s /q malmo
 git clone https://github.com/Microsoft/malmo %LOC%\malmo
 cd malmo
 git reset --hard %GIT_TAG%
-git apply %LOC%\win.patch
+for %%f in (%LOC%\..\patches\%GIT_TAG%\*.diff) do (
+  git apply %%f
+)
 
 rmdir /s /q build
 mkdir build
