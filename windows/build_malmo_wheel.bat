@@ -7,8 +7,8 @@ set LOC=%CD%
 if NOT EXIST %LOC%\m3 (
   powershell -command "& { (New-Object Net.WebClient).DownloadFile('https://repo.anaconda.com/miniconda/Miniconda3-4.5.4-Windows-x86_64.exe', 'm3.exe') }"
   start /wait "" m3.exe /InstallationType=JustMe /AddToPath=0 /RegisterPython=0 /NoRegistry=1 /S /D=%CD%\m3
-  set CONDA_AUTO_UPDATE_CONDA=False
 )
+set CONDA_AUTO_UPDATE_CONDA=False
 %LOC%\m3\Scripts\conda install m2w64-ntldd-git -y
 
 mkdir %LOC%\io
